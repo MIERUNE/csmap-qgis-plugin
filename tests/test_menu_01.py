@@ -1,6 +1,6 @@
 import unittest
 
-from sample_menu_01 import SampleMenu01
+from dem_to_csmap import SampleMenu01
 
 from .utilities import get_qgis_app
 
