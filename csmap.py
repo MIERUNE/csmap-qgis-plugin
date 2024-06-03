@@ -46,9 +46,11 @@ class CsMap:
         return action
 
     def initGui(self):
+        # アイコンのパスを取得
+        icon_path = os.path.join(os.path.dirname(__file__), "imgs", "icon.png")
         # メニュー設定
         self.add_action(
-            icon_path=None, text="CSMap", callback=self.show_menu_01, parent=self.win
+            icon_path=icon_path, text="", callback=self.show_menu_dem_to_csmap, parent=self.win
         )
 
     def unload(self):
@@ -59,5 +61,5 @@ class CsMap:
 
     def show_menu_dem_to_csmap(self):
         self.show_menu_dem_to_csmap = DemToCsMap()
-        self.show_menu_dem_to_csmap()
+        self.show_menu_dem_to_csmap.show()
 
