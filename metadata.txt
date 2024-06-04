@@ -1,8 +1,8 @@
 [general]
-name=Sample
+name=CSMap Plugin
 qgisMinimumVersion=3.0
-about=QGIS Sample Plugin
-description=QGIS Sample Plugin
+about=Processing is based on csmap-py.
+description=Convert DEM to CSMap
 version=1.0
 
 #Plugin main icon

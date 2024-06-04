@@ -3,13 +3,12 @@ import os
 from PyQt5.QtWidgets import QAction
 from qgis.PyQt.QtGui import QIcon
 
-from sample_menu_01 import SampleMenu01
-from sample_menu_02 import SampleMenu02
+from dem_to_csmap import DemToCsMap
 
-PLUGIN_NAME = "sample"
+PLUGIN_NAME = "CSMap Plugin"
 
 
-class Sample:
+class CsMap:
     def __init__(self, iface):
         self.iface = iface
         self.win = self.iface.mainWindow()
@@ -47,12 +46,11 @@ class Sample:
         return action
 
     def initGui(self):
+        # アイコンのパスを取得
+        icon_path = os.path.join(os.path.dirname(__file__), "imgs", "icon.png")
         # メニュー設定
         self.add_action(
-            icon_path=None, text="Menu01", callback=self.show_menu_01, parent=self.win
-        )
-        self.add_action(
-            icon_path=None, text="Menu02", callback=self.show_menu_02, parent=self.win
+            icon_path=icon_path, text="", callback=self.show_menu_dem_to_csmap, parent=self.win
         )
 
     def unload(self):
@@ -61,10 +59,7 @@ class Sample:
             self.iface.removeToolBarIcon(action)
         del self.toolbar
 
-    def show_menu_01(self):
-        self.sample_menu_01 = SampleMenu01()
-        self.sample_menu_01.show()
+    def show_menu_dem_to_csmap(self):
+        self.show_menu_dem_to_csmap = DemToCsMap()
+        self.show_menu_dem_to_csmap.show()
 
-    def show_menu_02(self):
-        self.sample_menu_02 = SampleMenu02()
-        self.sample_menu_02.show()

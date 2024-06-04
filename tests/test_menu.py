@@ -1,15 +1,15 @@
 import unittest
 
-from sample_menu_01 import SampleMenu01
+from dem_to_csmap import DemToCsMap
 
 from .utilities import get_qgis_app
 
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
 
-class TestMenu1(unittest.TestCase):
+class TestMenu(unittest.TestCase):
     def test_menu(self):
-        menu = SampleMenu01()
+        menu = DemToCsMap()
 
         assert menu.isVisible() is False
         menu.show()

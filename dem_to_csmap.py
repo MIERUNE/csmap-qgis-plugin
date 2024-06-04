@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt import uic
 
 
-class SampleMenu01(QDialog):
+class DemToCsMap(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi(
-            os.path.join(os.path.dirname(__file__), "sample_menu_01.ui"), self
+            os.path.join(os.path.dirname(__file__), "dem_to_csmap.ui"), self
         )
 
         self.ui.pushButton_run.clicked.connect(self.get_and_show_input_text)
