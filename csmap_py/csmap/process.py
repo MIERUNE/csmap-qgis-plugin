@@ -106,10 +106,7 @@ def process(
             dem.transform.d,
             dem.transform.e,
             dem.transform.f + (1 + margin // 2) * dem.transform.e,  # 上端の座標をマージン分ずらす
-            0.0,
-            0.0,
-            1.0,
-        )
+        ) # 古いrasterioに合わせて引数を3つ削除した
 
         # 生成されるCS立体図のサイズ
         out_width = dem.shape[1] - margin_to_removed * 2 - 2
