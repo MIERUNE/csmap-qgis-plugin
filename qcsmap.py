@@ -8,7 +8,7 @@ from dem_to_csmap import DemToCsMap
 PLUGIN_NAME = "CSMap Plugin"
 
 
-class CsMap:
+class QCsMap:
     def __init__(self, iface):
         self.iface = iface
         self.win = self.iface.mainWindow()
