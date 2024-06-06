@@ -30,15 +30,16 @@ class DemToCsMap(QDialog):
         # 入力・出力をUIで操作
         input_path = self.ui.mQgsFileWidget.filePath()
         output_dir = self.ui.mQgsFileWidget_.filePath()
+        output_path = os.path.join(output_dir, 'csmap.tif')
 
         process.process(
             input_path,
-            output_path=output_dir + '/csmap.tif',
+            output_path,
             chunk_size=256,
             params=params,
         )
 
         # csmap.tifをQGISに読み込む
-        iface.addRasterLayer(os.path.join(output_dir, 'csmap.tif'), 'csmap')
+        iface.addRasterLayer(output_path)
 
         self.close()
