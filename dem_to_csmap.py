@@ -3,7 +3,6 @@ import os
 from PyQt5.QtWidgets import QDialog
 from qgis.PyQt import uic
 from qgis.utils import iface
-from qgis.core import QgsRasterLayer
 
 from csmap_py.csmap import process
 
