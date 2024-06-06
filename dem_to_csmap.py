@@ -2,7 +2,6 @@ import os
 
 from PyQt5.QtWidgets import QDialog
 from qgis.PyQt import uic
-from qgis.gui import QgsFileWidget
 
 from csmap_py.csmap import process
 
