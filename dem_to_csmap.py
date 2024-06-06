@@ -2,6 +2,7 @@ import os
 
 from PyQt5.QtWidgets import QDialog
 from qgis.PyQt import uic
+from qgis.utils import iface
 
 from csmap_py.csmap import process
 
@@ -35,5 +36,8 @@ class DemToCsMap(QDialog):
             chunk_size=256,
             params=params,
         )
+
+        # csmap.tifをQGISに読み込む
+        iface.addRasterLayer(os.path.join(output_path, 'csmap.tif'), 'csmap')
 
         self.close()
