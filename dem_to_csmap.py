@@ -35,3 +35,5 @@ class DemToCsMap(QDialog):
             chunk_size=256,
             params=params,
         )
+
+        self.close()

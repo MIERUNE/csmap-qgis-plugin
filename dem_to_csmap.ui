@@ -27,7 +27,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>出力レイヤ</string>
+      <string>出力フォルダ</string>
      </property>
     </widget>
    </item>
