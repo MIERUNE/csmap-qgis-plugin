@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>524</width>
+    <width>389</width>
     <height>168</height>
    </rect>
   </property>
@@ -27,12 +27,12 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>出力フォルダ</string>
+      <string>出力レイヤ</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QgsFileWidget" name="mQgsFileWidget_"/>
+    <widget class="QgsFileWidget" name="mQgsFileWidget_output"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
