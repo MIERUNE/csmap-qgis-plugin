@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QgsFileWidget" name="mQgsFileWidget"/>
+    <widget class="QgsFileWidget" name="mQgsFileWidget_input"/>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
