@@ -1,6 +1,7 @@
 import os
 
 from PyQt5.QtWidgets import QDialog
+from qgis.gui import QgsFileWidget
 from qgis.PyQt import uic
 from qgis.utils import iface
 
@@ -16,11 +17,17 @@ class DemToCsMap(QDialog):
 
         # ウィンドウタイトル
         self.setWindowTitle("CSMap Plugin")
-        # QGISでサポートされているラスタデータのみ選択可能
-        self.ui.mQgsFileWidget.setFilter('*.tif;;*.tiff;;*.dt0;;*.dt1;;*.dt2;;*.dem;;*.asc;;*.adf;;*.hgt;;*.bil;;*.nc;;*.img;;*.flt;;*.bt;;*.xyz;;*.grd;;*.ter')
-        # 出力先をフォルダに指定
-        self.ui.mQgsFileWidget_.setStorageMode(1)
 
+        # QGISでサポートされているラスタデータのみ選択可能
+        self.ui.mQgsFileWidget.setFilter(
+            "*.tif;;*.tiff;;*.dt0;;*.dt1;;*.dt2;;*.dem;;*.asc;;*.adf;;*.hgt;;*.bil;;*.nc;;*.img;;*.flt;;*.bt;;*.xyz;;*.grd;;*.ter"
+        )
+
+        # 出力データの設定
+        self.ui.mQgsFileWidget_output.setFilter("*.tif")
+        self.ui.mQgsFileWidget_output.setStorageMode(QgsFileWidget.StorageMode.SaveFile)
+
+        # ボタンのクリックイベント
         self.ui.pushButton_run.clicked.connect(self.convert_dem_to_csmap)
         self.ui.pushButton_cancel.clicked.connect(self.close)
 
@@ -29,8 +36,7 @@ class DemToCsMap(QDialog):
 
         # 入力・出力をUIで操作
         input_path = self.ui.mQgsFileWidget.filePath()
-        output_dir = self.ui.mQgsFileWidget_.filePath()
-        output_path = os.path.join(output_dir, 'csmap.tif')
+        output_path = self.ui.mQgsFileWidget_output.filePath()
 
         process.process(
             input_path,
@@ -39,7 +45,7 @@ class DemToCsMap(QDialog):
             params=params,
         )
 
-        # csmap.tifをQGISに読み込む
-        iface.addRasterLayer(output_path)
+        # 出力結果をQGISに追加
+        iface.addRasterLayer(output_path, os.path.basename(output_path))
 
         self.close()
