@@ -48,11 +48,15 @@ class DemToCsMap(QDialog):
             )
         except Exception as e:
             iface.messageBar().pushMessage(
-                "ERROR", f"処理中に問題が発生しました.: {e}", level=Qgis.Critical
+                "ERROR",
+                f"DEMデータの処理中に問題が発生しました.: {e}",
+                level=Qgis.Critical,
             )
             return
 
         # 出力結果をQGISに追加
         iface.addRasterLayer(output_path, os.path.basename(output_path))
 
-        self.close()
+        # 処理終了後にウィンドウを閉じるオプション
+        if self.ui.checkBox_closeAfterProcessing.isChecked():
+            self.close()

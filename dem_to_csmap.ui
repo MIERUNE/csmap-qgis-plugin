@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>389</width>
-    <height>168</height>
+    <height>191</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,6 +33,13 @@
    </item>
    <item>
     <widget class="QgsFileWidget" name="mQgsFileWidget_output"/>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBox_closeAfterProcessing">
+     <property name="text">
+      <string>処理終了後，自動でウィンドウを閉じる</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
