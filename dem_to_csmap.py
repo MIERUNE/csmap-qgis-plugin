@@ -47,7 +47,9 @@ class DemToCsMap(QDialog):
                 params=params,
             )
         except Exception as e:
-            iface.messageBar().pushMessage("Error", str(e), level=Qgis.Critical)
+            iface.messageBar().pushMessage(
+                "ERROR", f"処理中に問題が発生しました.: {e}", level=Qgis.Critical
+            )
             return
 
         # 出力結果をQGISに追加
