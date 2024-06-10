@@ -1,6 +1,7 @@
 import os
 
 from PyQt5.QtWidgets import QDialog
+from qgis.core import Qgis
 from qgis.gui import QgsFileWidget
 from qgis.PyQt import uic
 from qgis.utils import iface
@@ -18,10 +19,8 @@ class DemToCsMap(QDialog):
         # ウィンドウタイトル
         self.setWindowTitle("CSMap Plugin")
 
-        # QGISでサポートされているラスタデータのみ選択可能
-        self.ui.mQgsFileWidget.setFilter(
-            "*.tif;;*.tiff;;*.dt0;;*.dt1;;*.dt2;;*.dem;;*.asc;;*.adf;;*.hgt;;*.bil;;*.nc;;*.img;;*.flt;;*.bt;;*.xyz;;*.grd;;*.ter"
-        )
+        # 入力データの制限
+        self.ui.mQgsFileWidget_input.setFilter("*")
 
         # 出力データの設定
         self.ui.mQgsFileWidget_output.setFilter("*.tif")
@@ -35,17 +34,29 @@ class DemToCsMap(QDialog):
         params = process.CsmapParams()
 
         # 入力・出力をUIで操作
-        input_path = self.ui.mQgsFileWidget.filePath()
+        input_path = self.ui.mQgsFileWidget_input.filePath()
         output_path = self.ui.mQgsFileWidget_output.filePath()
 
-        process.process(
-            input_path,
-            output_path,
-            chunk_size=256,
-            params=params,
-        )
+        # comment
+
+        try:
+            process.process(
+                input_path,
+                output_path,
+                chunk_size=256,
+                params=params,
+            )
+        except Exception as e:
+            iface.messageBar().pushMessage(
+                "ERROR",
+                f"DEMデータの処理中に問題が発生しました.: {e}",
+                level=Qgis.Critical,
+            )
+            return
 
         # 出力結果をQGISに追加
         iface.addRasterLayer(output_path, os.path.basename(output_path))
 
-        self.close()
+        # 処理終了後にウィンドウを閉じるオプション
+        if self.ui.checkBox_closeAfterProcessing.isChecked():
+            self.close()
