@@ -22,8 +22,8 @@ class DemToCsMap(QDialog):
 
         # ウィンドウを常に全面に表示する
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-
-        # QGISでサポートされているラスタデータのみ選択可能
+    
+        # 入力データの制限
         self.ui.mQgsFileWidget_input.setFilter("*")
 
         # 出力データの設定
@@ -38,7 +38,7 @@ class DemToCsMap(QDialog):
         params = process.CsmapParams()
 
         # 入力・出力をUIで操作
-        input_path = self.ui.mQgsFileWidget.filePath()
+        input_path = self.ui.mQgsFileWidget_input.filePath()
         output_path = self.ui.mQgsFileWidget_output.filePath()
 
         try:
