@@ -35,10 +35,27 @@ class DemToCsMap(QDialog):
         self.ui.pushButton_cancel.clicked.connect(self.close)
 
     def convert_dem_to_csmap(self):
-        params = process.CsmapParams()
+        # パラメータの設定
+        params = process.CsmapParams(
+            gf_size=self.ui.spinBoxGfSize.value(),  # 適用範囲
+            gf_sigma=self.ui.SpinBoxGfSigma.value(),  # ぼかし強度
+            curvature_size=self.ui.spinBoxCurvatureSize.value(),  # 計算範囲
+            height_scale=(
+                self.ui.doubleSpinBoxHeightScaleMin.value(),
+                self.ui.doubleSpinBoxHeightScaleMax.value(),
+            ),  # 高度
+            slope_scale=(
+                self.ui.doubleSpinBoxSlopeScaleMin.value(),
+                self.ui.doubleSpinBoxSlopeScaleMax.value(),
+            ),  # 斜度
+            curvature_scale=(
+                self.ui.doubleSpinBoxCurvatureScaleMin.value(),
+                self.ui.doubleSpinBoxCurvatureScaleMax.value(),
+            ),  # 曲率
+        )
 
         # 入力・出力をUIで操作
-        input_path = self.ui.mQgsFileWidget.filePath()
+        input_path = self.ui.mQgsFileWidget_input.filePath()
         output_path = self.ui.mQgsFileWidget_output.filePath()
 
         try:
