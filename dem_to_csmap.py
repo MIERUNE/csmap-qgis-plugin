@@ -1,5 +1,6 @@
 import os
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 from qgis.core import Qgis
 from qgis.gui import QgsFileWidget
@@ -19,6 +20,9 @@ class DemToCsMap(QDialog):
         # ウィンドウタイトル
         self.setWindowTitle("CSMap Plugin")
 
+        # ウィンドウを常に全面に表示する
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+    
         # 入力データの制限
         self.ui.mQgsFileWidget_input.setFilter("*")
 
@@ -36,8 +40,6 @@ class DemToCsMap(QDialog):
         # 入力・出力をUIで操作
         input_path = self.ui.mQgsFileWidget_input.filePath()
         output_path = self.ui.mQgsFileWidget_output.filePath()
-
-        # comment
 
         try:
             process.process(
