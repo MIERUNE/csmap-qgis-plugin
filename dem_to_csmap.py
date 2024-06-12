@@ -37,22 +37,24 @@ class DemToCsMap(QDialog):
     def convert_dem_to_csmap(self):
         # パラメータの設定
         params = process.CsmapParams(
-            gf_size=self.ui.spinBoxGfSize.value(),  # 適用範囲
-            gf_sigma=self.ui.SpinBoxGfSigma.value(),  # ぼかし強度
-            curvature_size=self.ui.spinBoxCurvatureSize.value(),  # 計算範囲
+            gf_size=self.ui.spinBoxGfSize.value(),
+            gf_sigma=self.ui.SpinBoxGfSigma.value(),
+            curvature_size=self.ui.spinBoxCurvatureSize.value(),
             height_scale=(
                 self.ui.doubleSpinBoxHeightScaleMin.value(),
                 self.ui.doubleSpinBoxHeightScaleMax.value(),
-            ),  # 高度
+            ),
             slope_scale=(
                 self.ui.doubleSpinBoxSlopeScaleMin.value(),
                 self.ui.doubleSpinBoxSlopeScaleMax.value(),
-            ),  # 斜度
+            ),
             curvature_scale=(
                 self.ui.doubleSpinBoxCurvatureScaleMin.value(),
                 self.ui.doubleSpinBoxCurvatureScaleMax.value(),
             ),  # 曲率
         )
+
+        process.max_workers = self.ui.spinBoxMaxWorkers.value()
 
         # 入力・出力をUIで操作
         input_path = self.ui.mQgsFileWidget_input.filePath()
@@ -62,7 +64,7 @@ class DemToCsMap(QDialog):
             process.process(
                 input_path,
                 output_path,
-                chunk_size=256,
+                chunk_size=self.ui.spinBoxChunkSize.value(),
                 params=params,
             )
         except Exception as e:
