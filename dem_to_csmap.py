@@ -54,8 +54,6 @@ class DemToCsMap(QDialog):
             ),  # 曲率
         )
 
-        process.process(max_workers=self.ui.spinBoxMaxWorkers.value())
-
         # 入力・出力をUIで操作
         input_path = self.ui.mQgsFileWidget_input.filePath()
         output_path = self.ui.mQgsFileWidget_output.filePath()
@@ -66,6 +64,7 @@ class DemToCsMap(QDialog):
                 output_path,
                 chunk_size=self.ui.spinBoxChunkSize.value(),
                 params=params,
+                max_workers=self.ui.spinBoxMaxWorkers.value(),
             )
         except Exception as e:
             iface.messageBar().pushMessage(
