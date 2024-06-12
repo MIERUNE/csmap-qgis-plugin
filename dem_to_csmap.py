@@ -41,8 +41,8 @@ class DemToCsMap(QDialog):
             gf_sigma=self.ui.SpinBoxGfSigma.value(),
             curvature_size=self.ui.spinBoxCurvatureSize.value(),
             height_scale=(
-                self.ui.doubleSpinBoxHeightScaleMin.value(),
-                self.ui.doubleSpinBoxHeightScaleMax.value(),
+                self.ui.spinBoxHeightScaleMin.value(),
+                self.ui.spinBoxHeightScaleMax.value(),
             ),
             slope_scale=(
                 self.ui.doubleSpinBoxSlopeScaleMin.value(),
@@ -54,7 +54,7 @@ class DemToCsMap(QDialog):
             ),  # 曲率
         )
 
-        process.max_workers = self.ui.spinBoxMaxWorkers.value()
+        process.process.max_workers = self.ui.spinBoxMaxWorkers.value()
 
         # 入力・出力をUIで操作
         input_path = self.ui.mQgsFileWidget_input.filePath()

@@ -273,56 +273,6 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBoxHeightScaleMin">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>110</y>
-      <width>70</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="decimals">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <double>10000.000000000000000</double>
-    </property>
-    <property name="singleStep">
-     <double>100.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBoxHeightScaleMax">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>135</y>
-      <width>70</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="decimals">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <double>10000.000000000000000</double>
-    </property>
-    <property name="singleStep">
-     <double>100.000000000000000</double>
-    </property>
-    <property name="value">
-     <double>1000.000000000000000</double>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
@@ -612,6 +562,47 @@
     </property>
     <property name="value">
      <number>1</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBoxHeightScaleMin">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>110</y>
+      <width>70</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="maximum">
+     <number>10000</number>
+    </property>
+    <property name="singleStep">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBoxHeightScaleMax">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>135</y>
+      <width>70</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="maximum">
+     <number>10000</number>
+    </property>
+    <property name="singleStep">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>1000</number>
     </property>
    </widget>
   </widget>
