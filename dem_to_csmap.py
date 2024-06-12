@@ -25,7 +25,6 @@ class DemToCsMap(QDialog):
 
         # QGISでサポートされているラスタデータのみ選択可能
         self.ui.mQgsFileWidget_input.setFilter("*")
-        self.ui.mQgsFileWidget_input.setStorageMode(QgsFileWidget.GetMultipleFiles)
 
         # 出力データの設定
         self.ui.mQgsFileWidget_output.setFilter("*.tif")
