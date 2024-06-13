@@ -2,7 +2,7 @@ import os
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
-from qgis.core import Qgis
+from qgis.core import Qgis, QgsProject, QgsRasterLayer
 from qgis.gui import QgsFileWidget
 from qgis.PyQt import uic
 from qgis.utils import iface
@@ -22,7 +22,7 @@ class DemToCsMap(QDialog):
 
         # ウィンドウを常に全面に表示する
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-    
+
         # 入力データの制限
         self.ui.mQgsFileWidget_input.setFilter("*")
 
@@ -75,7 +75,10 @@ class DemToCsMap(QDialog):
             return
 
         # 出力結果をQGISに追加
-        iface.addRasterLayer(output_path, os.path.basename(output_path))
+        rlayer = QgsRasterLayer(output_path, os.path.basename(output_path))
+        QgsProject.instance().addMapLayer(rlayer)
+        iface.setActiveLayer(rlayer)
+        iface.zoomToActiveLayer()
 
         # 処理終了後にウィンドウを閉じるオプション
         if self.ui.checkBox_closeAfterProcessing.isChecked():
