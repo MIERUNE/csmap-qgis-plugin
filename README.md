@@ -6,6 +6,7 @@ DEMをGeoTIFF形式のCS立体図に変換するQGISプラグインです。<br>
 DEMの変換処理は[ csmap-py ](https://github.com/MIERUNE/csmap-py)を利用しているため，最新版QGIS LTR（Windows / macOS）で動作します。<br>
 
 ## 使用方法
+
  - アイコンをクリックして，プラグインを起動します。
  - 入力ファイル：DEM（GDALでサポートされている形式）を選択します。
  - 出力ファイル：出力されるCS立体図の名前を指定します。
