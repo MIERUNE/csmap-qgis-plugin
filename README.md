@@ -1,11 +1,10 @@
 # qgis-csmap-plugin
 
-<img src='./imgs/icon.png' alt="CSMap Plugin Icon" width="10%">
-<br>*出典：基盤地図情報数値標高モデル（項目名=6441-42）を本プラグインで処理して作成*
+<img src='./imgs/icon.png' alt="CSMap Plugin Icon" width="10%"><br>
+_出典：基盤地図情報数値標高モデル（項目名=6441-42）を本プラグインで処理して作成_
 
 DEMをGeoTIFF形式のCS立体図に変換するQGISプラグインです。<br>
 DEMの変換処理は[ csmap-py ](https://github.com/MIERUNE/csmap-py)を利用しているため，最新版QGIS LTR（Windows / macOS）で動作します。<br>
-
 
 ## インストール
 
