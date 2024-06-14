@@ -1,17 +1,17 @@
 [general]
 name=CSMap Plugin
-qgisMinimumVersion=3.0
-about=Processing is based on csmap-py.
-description=Convert DEM to CSMap
-version=1.0
+qgisMinimumVersion=3.34
+about=最新版QGIS LTR（Windows / macOS）で動作します。
+description=DEMをGeoTIFF形式のCS立体図に変換するQGISプラグインです。
+version=0.0.1
 
 #Plugin main icon
 icon=imgs/icon.png
 
 author=MIERUNE Inc.
 email=info@mierune.co.jp
-homepage=
-tracker=
-repository=
-tags=
+homepage=https://github.com/MIERUNE/csmap-qgis-plugin
+tracker=https://github.com/MIERUNE/csmap-qgis-plugin/issues
+repository=https://github.com/MIERUNE/csmap-qgis-plugin
+tags=python, DEM, GeoTIFF
 category=

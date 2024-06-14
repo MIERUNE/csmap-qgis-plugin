@@ -74,7 +74,7 @@ class DemToCsMap(QDialog):
             )
             return
 
-        # 出力結果をQGISに追加
+        # 出力結果をQGISに追加・マップキャンバスの中心に表示
         rlayer = QgsRasterLayer(output_path, os.path.basename(output_path))
         QgsProject.instance().addMapLayer(rlayer)
         iface.setActiveLayer(rlayer)
