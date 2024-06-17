@@ -65,7 +65,7 @@ class DemToCsMap(QDialog):
             )
         except Exception as e:
             iface.messageBar().pushMessage(
-                "ERROR",
+                "CSMap Plugin",
                 f"DEMデータの処理中に問題が発生しました.: {e}",
                 level=Qgis.Critical,
             )
@@ -76,6 +76,12 @@ class DemToCsMap(QDialog):
         QgsProject.instance().addMapLayer(rlayer)
         iface.setActiveLayer(rlayer)
         iface.zoomToActiveLayer()
+
+        iface.messageBar().pushMessage(
+            "CSMap Plugin",
+            f"変換が完了しました: {output_path}",
+            level=Qgis.Info,
+        )
 
         # 処理終了後にウィンドウを閉じるオプション
         if self.ui.checkBox_closeAfterProcessing.isChecked():
