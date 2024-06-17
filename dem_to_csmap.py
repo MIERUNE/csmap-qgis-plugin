@@ -17,9 +17,6 @@ class DemToCsMap(QDialog):
             os.path.join(os.path.dirname(__file__), "dem_to_csmap.ui"), self
         )
 
-        # ウィンドウタイトル
-        self.setWindowTitle("CSMap Plugin")
-
         # ウィンドウを常に全面に表示する
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
@@ -38,7 +35,7 @@ class DemToCsMap(QDialog):
         # パラメータの設定
         params = process.CsmapParams(
             gf_size=self.ui.spinBoxGfSize.value(),
-            gf_sigma=self.ui.SpinBoxGfSigma.value(),
+            gf_sigma=self.ui.spinBoxGfSigma.value(),
             curvature_size=self.ui.spinBoxCurvatureSize.value(),
             height_scale=(
                 self.ui.spinBoxHeightScaleMin.value(),
