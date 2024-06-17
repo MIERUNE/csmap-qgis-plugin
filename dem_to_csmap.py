@@ -66,7 +66,7 @@ class DemToCsMap(QDialog):
         except Exception as e:
             iface.messageBar().pushMessage(
                 "CSMap Plugin",
-                f"DEMデータの処理中に問題が発生しました.: {e}",
+                f"DEMデータの処理中に問題が発生しました: {e}",
                 level=Qgis.Critical,
             )
             return
