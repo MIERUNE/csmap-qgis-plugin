@@ -1,6 +1,8 @@
 import os
 import unittest
 
+from qgis.core import QgsProject
+
 from dem_to_csmap import DemToCsMap
 
 from .utilities import get_qgis_app
@@ -25,6 +27,12 @@ class TestMenu(unittest.TestCase):
             os.path.join(os.path.dirname(__file__), "_result.tif")
         )
         menu.pushButton_run.click()  # run process
+
+        assert (
+            os.path.exists(os.path.join(os.path.dirname(__file__), "_result.tif"))
+            is True
+        )
+        assert len(QgsProject.instance().mapLayersByName("_result")) == 1
 
 
 if __name__ == "__main__":
