@@ -17,9 +17,6 @@ class DemToCsMap(QDialog):
             os.path.join(os.path.dirname(__file__), "dem_to_csmap.ui"), self
         )
 
-        # ウィンドウタイトル
-        self.setWindowTitle("CSMap Plugin")
-
         # ウィンドウを常に全面に表示する
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
@@ -38,7 +35,7 @@ class DemToCsMap(QDialog):
         # パラメータの設定
         params = process.CsmapParams(
             gf_size=self.ui.spinBoxGfSize.value(),
-            gf_sigma=self.ui.SpinBoxGfSigma.value(),
+            gf_sigma=self.ui.spinBoxGfSigma.value(),
             curvature_size=self.ui.spinBoxCurvatureSize.value(),
             height_scale=(
                 self.ui.spinBoxHeightScaleMin.value(),
@@ -68,8 +65,8 @@ class DemToCsMap(QDialog):
             )
         except Exception as e:
             iface.messageBar().pushMessage(
-                "ERROR",
-                f"DEMデータの処理中に問題が発生しました.: {e}",
+                "CSMap Plugin",
+                f"DEMデータの処理中に問題が発生しました: {e}",
                 level=Qgis.Critical,
             )
             return
@@ -79,6 +76,12 @@ class DemToCsMap(QDialog):
         QgsProject.instance().addMapLayer(rlayer)
         iface.setActiveLayer(rlayer)
         iface.zoomToActiveLayer()
+
+        iface.messageBar().pushMessage(
+            "CSMap Plugin",
+            f"変換が完了しました: {output_path}",
+            level=Qgis.Info,
+        )
 
         # 処理終了後にウィンドウを閉じるオプション
         if self.ui.checkBox_closeAfterProcessing.isChecked():
