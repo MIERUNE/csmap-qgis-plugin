@@ -32,7 +32,7 @@ class TestMenu(unittest.TestCase):
             os.path.exists(os.path.join(os.path.dirname(__file__), "_result.tif"))
             is True
         )
-        assert len(QgsProject.instance().mapLayersByName("_result")) == 1
+        assert len(QgsProject.instance().mapLayersByName("_result.tif")) == 1
 
 
 if __name__ == "__main__":
