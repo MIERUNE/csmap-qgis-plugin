@@ -15,6 +15,7 @@ jobs:
       run: |
         mkdir ${{env.PLUGIN_NAME}}
         find . -type f | grep -ve './.git' \
+          -ve './imgs' \
           -ve '.github' \
           -ve './.vscode' \
           -ve '__pycache__/' \
