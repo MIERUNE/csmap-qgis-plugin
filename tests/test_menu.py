@@ -30,7 +30,7 @@ class TestMenu(unittest.TestCase):
 
         menu.pushButton_run.click()  # run process
 
-        assert output_path is True
+        assert os.path.exists(output_path) is True
         assert len(QgsProject.instance().mapLayersByName(filename)) == 1
 
 
