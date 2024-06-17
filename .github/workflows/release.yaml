@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  PLUGIN_NAME: qgis-plugin-template
+  PLUGIN_NAME: csmap-qgis-plugin
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -15,6 +15,7 @@ jobs:
       run: |
         mkdir ${{env.PLUGIN_NAME}}
         find . -type f | grep -ve './.git' \
+          -ve './imgs' \
           -ve '.github' \
           -ve './.vscode' \
           -ve '__pycache__/' \
