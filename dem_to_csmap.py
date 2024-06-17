@@ -8,6 +8,7 @@ from qgis.PyQt import uic
 from qgis.utils import iface
 
 from csmap_py.csmap import process
+from qcsmap import PLUGIN_NAME
 
 
 class DemToCsMap(QDialog):
@@ -65,7 +66,7 @@ class DemToCsMap(QDialog):
             )
         except Exception as e:
             iface.messageBar().pushMessage(
-                "CSMap Plugin",
+                PLUGIN_NAME,
                 f"DEMデータの処理中に問題が発生しました.: {e}",
                 level=Qgis.Critical,
             )
@@ -78,7 +79,7 @@ class DemToCsMap(QDialog):
         iface.zoomToActiveLayer()
 
         iface.messageBar().pushMessage(
-            "CSMap Plugin",
+            PLUGIN_NAME,
             f"変換が完了しました: {output_path}",
             level=Qgis.Info,
         )
