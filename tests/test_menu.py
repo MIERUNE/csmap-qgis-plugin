@@ -23,16 +23,15 @@ class TestMenu(unittest.TestCase):
         menu.mQgsFileWidget_input.setFilePath(
             os.path.join(os.path.dirname(__file__), "fixture", "12ke35_1mdem.tif")
         )
-        menu.mQgsFileWidget_output.setFilePath(
-            os.path.join(os.path.dirname(__file__), "_result.tif")
-        )
+
+        filename = "_result.tif"
+        output_path = os.path.join(os.path.dirname(__file__), filename)
+        menu.mQgsFileWidget_output.setFilePath(output_path)
+
         menu.pushButton_run.click()  # run process
 
-        assert (
-            os.path.exists(os.path.join(os.path.dirname(__file__), "_result.tif"))
-            is True
-        )
-        assert len(QgsProject.instance().mapLayersByName("_result.tif")) == 1
+        assert output_path is True
+        assert len(QgsProject.instance().mapLayersByName(filename)) == 1
 
 
 if __name__ == "__main__":
