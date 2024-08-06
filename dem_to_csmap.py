@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 
 from PyQt5.QtCore import Qt
@@ -26,6 +27,9 @@ class DemToCsMap(QDialog):
         # 出力データの設定
         self.ui.mQgsFileWidget_output.setFilter("*.tif")
         self.ui.mQgsFileWidget_output.setStorageMode(QgsFileWidget.StorageMode.SaveFile)
+
+        # デフォルトの max_workers の値をCPUの最大スレッド数に設定
+        self.ui.spinBoxMaxWorkers.setValue(multiprocessing.cpu_count())
 
         # ボタンのクリックイベント
         self.ui.pushButton_run.clicked.connect(self.convert_dem_to_csmap)
