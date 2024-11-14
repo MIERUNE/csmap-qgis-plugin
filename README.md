@@ -28,3 +28,8 @@ rasterio インストール手順：
  - `高度なオプション` 及び `処理終了後，自動でウィンドウを閉じる` の使用は任意です。
 
 <img src='./imgs/usage.png' alt="Usage Example of CSMap Plugin" width="70%">
+
+## Authors
+
+- Keita Uemori([@KeiTa4446](https://github.com/KeiTa4446)
+- Shota Yamamoto([@geogra-geogra](https://github.com/geogra-geogra))
