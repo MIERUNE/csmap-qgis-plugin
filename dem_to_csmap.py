@@ -32,10 +32,40 @@ class DemToCsMap(QDialog):
         self.ui.spinBoxMaxWorkers.setValue(multiprocessing.cpu_count())
 
         # ボタンのクリックイベント
-        self.ui.pushButton_run.clicked.connect(self.convert_dem_to_csmap)
+        self.ui.pushButton_run.clicked.connect(self.set_file_path)
         self.ui.pushButton_cancel.clicked.connect(self.close)
 
-    def convert_dem_to_csmap(self):
+    def set_file_path(self):
+        # 入力ファイルパス
+        if self.ui.rbtn_select_file.isChecked():
+            input_path = self.ui.mQgsFileWidget_input.filePath()
+        elif self.ui.rbtn_select_mLayer.isChecked():
+            input_path = self.ui.mLayerCB_input.currentLayer().source()
+
+        # 出力ファイルパス
+        output_path = self.ui.mQgsFileWidget_output.filePath()
+
+        return self.convert_dem_to_csmap(input_path, output_path)
+
+    def convert_dem_to_csmap(self, input_path, output_path):
+        if not input_path:
+            iface.messageBar().pushMessage(
+                "CSMap Plugin",
+                "入力ファイルを選択してください",
+                level=Qgis.Critical,
+                duration=5,
+            )
+            return
+
+        if not output_path:
+            iface.messageBar().pushMessage(
+                "CSMap Plugin",
+                "出力ディレクトリを選択してください",
+                level=Qgis.Critical,
+                duration=5,
+            )
+            return
+
         # パラメータの設定
         params = process.CsmapParams(
             gf_size=self.ui.spinBoxGfSize.value(),
@@ -54,10 +84,6 @@ class DemToCsMap(QDialog):
                 self.ui.doubleSpinBoxCurvatureScaleMax.value(),
             ),  # 曲率
         )
-
-        # 入力・出力をUIで操作
-        input_path = self.ui.mQgsFileWidget_input.filePath()
-        output_path = self.ui.mQgsFileWidget_output.filePath()
 
         try:
             process.process(
