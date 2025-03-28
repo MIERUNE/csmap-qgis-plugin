@@ -6,7 +6,9 @@ description=DEMをGeoTIFF形式のCS立体図に変換するQGISプラグイン�
 version=0.0.1
 
 #Plugin main icon
-icon=imgs/icon.png
+icon=processing_provider/icon.png
+
+hasProcessingProvider=yes
 
 author=MIERUNE Inc.
 email=info@mierune.co.jp

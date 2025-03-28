@@ -1,14 +1,13 @@
+from concurrent import futures
 from dataclasses import dataclass
 from threading import Lock
-from concurrent import futures
 
 import numpy as np
 import rasterio
-from rasterio.windows import Window
 from rasterio.transform import Affine
+from rasterio.windows import Window
 
-from csmap import calc
-from csmap import color
+from . import calc, color
 
 
 @dataclass
@@ -67,10 +66,12 @@ def _process_chunk(
     csmap_chunk = csmap(chunk, params)
     csmap_chunk_margin_removed = csmap_chunk[
         :,
-        (params.gf_size + params.gf_sigma)
-        // 2 : -((params.gf_size + params.gf_sigma) // 2),
-        (params.gf_size + params.gf_sigma)
-        // 2 : -((params.gf_size + params.gf_sigma) // 2),
+        (params.gf_size + params.gf_sigma) // 2 : -(
+            (params.gf_size + params.gf_sigma) // 2
+        ),
+        (params.gf_size + params.gf_sigma) // 2 : -(
+            (params.gf_size + params.gf_sigma) // 2
+        ),
     ]  # shape = (4, chunk_size - margin, chunk_size - margin)
 
     if lock is None:
@@ -102,11 +103,13 @@ def process(
         transform = Affine(
             dem.transform.a,
             dem.transform.b,
-            dem.transform.c + (1 + margin // 2) * dem.transform.a,  # 左端の座標をマージン分ずらす
+            dem.transform.c
+            + (1 + margin // 2) * dem.transform.a,  # 左端の座標をマージン分ずらす
             dem.transform.d,
             dem.transform.e,
-            dem.transform.f + (1 + margin // 2) * dem.transform.e,  # 上端の座標をマージン分ずらす
-        ) # 古いrasterioに合わせて引数を3つ削除した
+            dem.transform.f
+            + (1 + margin // 2) * dem.transform.e,  # 上端の座標をマージン分ずらす
+        )  # 古いrasterioに合わせて引数を3つ削除した
 
         # 生成されるCS立体図のサイズ
         out_width = dem.shape[1] - margin_to_removed * 2 - 2
