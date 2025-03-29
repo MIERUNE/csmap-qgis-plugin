@@ -4,9 +4,8 @@ import os
 from PyQt5.QtCore import QCoreApplication
 from qgis.core import (
     QgsProcessingAlgorithm,
-    QgsProcessingParameterBoolean,
-    QgsProcessingParameterFileDestination,
     QgsProcessingParameterNumber,
+    QgsProcessingParameterRasterDestination,
     QgsProcessingParameterRasterLayer,
     QgsProject,
     QgsRasterLayer,
@@ -29,7 +28,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
     CURVATURE_SCALE_MAX = "CURVATURE_SCALE_MAX"
     CHUNK_SIZE = "CHUNK_SIZE"
     MAX_WORKERS = "MAX_WORKERS"
-    LOAD_RESULT = "LOAD_RESULT"
 
     def initAlgorithm(self, config=None):
         self.addParameter(
@@ -41,10 +39,11 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterFileDestination(
-                self.OUTPUT,
+            QgsProcessingParameterRasterDestination(
+                "OUTPUT",
                 self.tr("出力レイヤ"),
-                "GeoTIFF files(*.tif *.tiff *.TIF *.TIFF)",
+                defaultValue="csmap.tif",
+                optional=True,
             )
         )
 
@@ -162,14 +161,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
                 multiprocessing.cpu_count(),
                 minValue=1,
                 maxValue=64,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.LOAD_RESULT,
-                "アルゴリズムの終了後に出力ファイルを開く",
-                defaultValue=True,
             )
         )
 
