@@ -3,7 +3,7 @@ import unittest
 
 from qgis.core import QgsProject
 
-from dem_to_csmap import DemToCsMap
+from csmap_py import DemToCsMap
 
 from .utilities import get_qgis_app
 
