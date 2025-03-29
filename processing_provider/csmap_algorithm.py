@@ -253,7 +253,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         return CSMapProcessingAlgorithm()
 
     def name(self):
-        return "csmapplugin"
+        return "dem_to_csmap"
 
     def displayName(self):
         return self.tr("CS立体図を作成（CS 3D-Map）")

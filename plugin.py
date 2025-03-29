@@ -35,7 +35,7 @@ class CSMapPlugin:
             icon, "CS立体図を作成（CS 3D-Map）", self.iface.mainWindow()
         )
         default_action.triggered.connect(
-            lambda: execAlgorithmDialog("csmap:csmapplugin", {})
+            lambda: execAlgorithmDialog("csmap:dem_to_csmap", {})
         )
         tool_button.setDefaultAction(default_action)
 
