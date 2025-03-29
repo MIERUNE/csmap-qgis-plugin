@@ -1,37 +1,57 @@
 import os
 import unittest
 
-from qgis.core import QgsProject
+from processing.core.Processing import Processing
+from qgis.core import QgsProcessingFeedback, QgsProject, QgsRasterLayer
+from qgis.PyQt.QtCore import QCoreApplication
 
-from csmap_py import DemToCsMap
+from processing_provider import CSMapProcessingAlgorithm
 
 from .utilities import get_qgis_app
 
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
 
-class TestMenu(unittest.TestCase):
-    def test_menu(self):
-        menu = DemToCsMap()
+class TestDemToCsMapAlgorithm(unittest.TestCase):
+    def setUp(self):
+        self.feedback = QgsProcessingFeedback()
 
-        assert menu.isVisible() is False
-        menu.show()
-        assert menu.isVisible() is True
-        menu.hide()
-        assert menu.isVisible() is False
+        Processing.initialize()
 
-        menu.mQgsFileWidget_input.setFilePath(
-            os.path.join(os.path.dirname(__file__), "fixture", "12ke35_1mdem.tif")
+        self.alg = CSMapProcessingAlgorithm()
+
+        self.test_dem_path = os.path.join(
+            os.path.dirname(__file__), "fixture", "12ke35_1mdem.tif"
         )
 
-        filename = "_result.tif"
-        output_path = os.path.join(os.path.dirname(__file__), filename)
-        menu.mQgsFileWidget_output.setFilePath(output_path)
+        self.output_path = os.path.join(os.path.dirname(__file__), "_result.tif")
 
-        menu.pushButton_run.click()  # run process
+    def test_algorithm(self):
+        params = {"INPUT": self.test_dem_path, "OUTPUT": self.output_path}
 
-        assert os.path.exists(output_path) is True
-        assert len(QgsProject.instance().mapLayersByName(filename)) == 1
+        result = self.alg.processAlgorithm(params, self.feedback)
+        self.assertEqual(result["OUTPUT"], self.output_path)
+
+        self.assertTrue(os.path.exists(self.output_path))
+
+        layer = QgsRasterLayer(self.output_path, "_result")
+        self.assertTrue(layer.isValid())
+
+        QgsProject.instance().addMapLayer(layer)
+
+        self.assertEqual(len(QgsProject.instance().mapLayersByName("_result")), 1)
+
+    def tearDown(self):
+        if os.path.exists(self.output_path):
+            QgsProject.instance().removeMapLayer(
+                QgsProject.instance().mapLayersByName("_result")[0].id()
+            )
+
+            QCoreApplication.processEvents()
+            try:
+                os.remove(self.output_path)
+            except OSError:
+                pass
 
 
 if __name__ == "__main__":
