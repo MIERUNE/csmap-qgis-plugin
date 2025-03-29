@@ -33,5 +33,5 @@ rasterio インストール手順：
 
 ## Authors
 
-- Keita Uemori([@KeiTa4446](https://github.com/KeiTa4446)
+- Keita Uemori([@KeiTa4446](https://github.com/KeiTa4446))
 - Shota Yamamoto([@geogra-geogra](https://github.com/geogra-geogra))
