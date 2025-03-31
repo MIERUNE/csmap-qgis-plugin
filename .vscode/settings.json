@@ -1,4 +1,11 @@
 {
-  "python.formatting.provider": "black",
-  "python.linting.flake8Enabled": true
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.autoFix": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "python.analysis.typeCheckingMode": "basic",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  }
 }

@@ -7,4 +7,4 @@ __pycache__/
 coverage.xml
 .coverage
 requirements.txt
-poetry.lock
+uv.lock
