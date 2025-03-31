@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Export requirements.txt
         run: |
@@ -31,12 +31,21 @@ jobs:
           docker pull "$DOCKER_IMAGE":${{ matrix.docker_tags }}
           docker run -d --name qgis-testing-environment -v .:/tests_directory/plugin_dir -e DISPLAY=:99 "$DOCKER_IMAGE":${{ matrix.docker_tags }}
 
+      - name: Install Xvfb in container
+        run: |
+          docker exec qgis-testing-environment apt-get update
+          docker exec qgis-testing-environment apt-get install -y xvfb
+
       - name: Docker set up QGIS
         run: |
           docker exec qgis-testing-environment sh -c "qgis_setup.sh plugin_dir"
           docker exec qgis-testing-environment sh -c "rm -f /root/.local/share/QGIS/QGIS3/profiles/default/python/plugins/plugin_dir"
           docker exec qgis-testing-environment sh -c "ln -s /tests_directory/plugin_dir /root/.local/share/QGIS/QGIS3/profiles/default/python/plugins/plugin_dir"
           docker exec qgis-testing-environment sh -c "pip3 install -r /tests_directory/plugin_dir/requirements.txt"
+
+      - name: Start Xvfb in container
+        run: |
+          docker exec -d qgis-testing-environment sh -c "Xvfb :99 -screen 0 1024x768x24"
 
       - name: Docker run plugin tests
         run: |
