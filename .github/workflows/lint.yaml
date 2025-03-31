@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install dependencies
-        run: uv sync
+      - name: Install dependencies with dev extras
+        run: uv sync -e ".[dev]"
 
       - name: Lint with ruff
         run: uv run ruff check --output-format=github .
