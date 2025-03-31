@@ -5,7 +5,7 @@ description = ""
 authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
 readme = "README.md"
 packages = [
-  #{ include = "qgis", from = "/Applications/QGIS.app/Contents/MacOS/bin/python3" },
+  { include = "qgis", from = "/Applications/QGIS.app/Contents/MacOS/bin/python3" },
 ]
 
 [tool.poetry.dependencies]
