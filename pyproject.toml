@@ -1,21 +1,17 @@
-[tool.poetry]
+[project]
 name = "csmap-qgis-plugin"
 version = "0.0.1"
 description = ""
-authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
-readme = "README.md"
-packages = [
-  #{ include = "qgis", from = "/Applications/QGIS.app/Contents/MacOS/bin/python3" },
+authors = [
+    {name = "MIERUNE Inc.", email = "info@mierune.co.jp"},
 ]
+readme = "README.md"
+requires-python = ">=3.9"
 
-[tool.poetry.dependencies]
-python = "^3.9"
+dependencies = []
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.4.5"
-rasterio = "^1.3.10"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.4.5",
+    "rasterio>=1.3.10",
+]
