@@ -1,14 +1,13 @@
+from concurrent import futures
 from dataclasses import dataclass
 from threading import Lock
-from concurrent import futures
 
 import numpy as np
 import rasterio
-from rasterio.windows import Window
 from rasterio.transform import Affine
+from rasterio.windows import Window
 
-from csmap import calc
-from csmap import color
+from . import calc, color
 
 
 @dataclass
