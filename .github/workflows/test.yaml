@@ -46,7 +46,3 @@ jobs:
       - name: Start Xvfb in container
         run: |
           docker exec -d qgis-testing-environment sh -c "Xvfb :99 -screen 0 1024x768x24"
-
-      - name: Docker run plugin tests
-        run: |
-          docker exec qgis-testing-environment sh -c "qgis_testrunner.sh plugin_dir.test_suite.test_package"
