@@ -25,10 +25,6 @@ class CSMapPlugin:
         QgsApplication.processingRegistry().removeProvider(self.provider)
 
     def setup_algorithms_tool_button(self):
-        """
-        Add a button to call the algorithm on the toolbar.
-        """
-
         tool_button = QToolButton()
         icon = self.provider.icon()
         default_action = QAction(

@@ -174,13 +174,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         )
 
     def processAlgorithm(self, parameters, context, feedback):
-        """
-        Here is where the processing itself takes place.
-        """
-
         input_layer = self.parameterAsRasterLayer(parameters, self.INPUT, context)
         output_path = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 
+        # parameters
         gf_size = self.parameterAsInt(parameters, self.GF_SIZE, context)
         gf_sigma = self.parameterAsInt(parameters, self.GF_SIGMA, context)
         curvature_size = self.parameterAsInt(parameters, self.CURVATURE_SIZE, context)
@@ -244,9 +241,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         return {self.OUTPUT: output_path}
 
     def tr(self, string):
-        """
-        Returns a translatable string with the self.tr() function.
-        """
         return QCoreApplication.translate("Processing", string)
 
     def createInstance(self):
