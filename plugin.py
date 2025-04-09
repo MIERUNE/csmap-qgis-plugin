@@ -7,7 +7,7 @@ from qgis.core import QgsApplication
 from .processing_provider.csmap_provider import CSMapProcessingProvider
 
 with contextlib.suppress(ImportError):
-    from qgis.processing import execAlgorithmDialog
+    from processing import execAlgorithmDialog
 
 
 class CSMapPlugin:
