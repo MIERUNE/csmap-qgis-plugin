@@ -1,15 +1,11 @@
 import multiprocessing
-import os
 
 from PyQt5.QtCore import QCoreApplication
 from qgis.core import (
     QgsProcessingAlgorithm,
-    QgsProcessingParameterBoolean,
-    QgsProcessingParameterFileDestination,
     QgsProcessingParameterNumber,
+    QgsProcessingParameterRasterDestination,
     QgsProcessingParameterRasterLayer,
-    QgsProject,
-    QgsRasterLayer,
 )
 
 from ..csmap_py.csmap import process
@@ -29,7 +25,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
     CURVATURE_SCALE_MAX = "CURVATURE_SCALE_MAX"
     CHUNK_SIZE = "CHUNK_SIZE"
     MAX_WORKERS = "MAX_WORKERS"
-    LOAD_RESULT = "LOAD_RESULT"
 
     def initAlgorithm(self, config=None):
         self.addParameter(
@@ -41,10 +36,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterFileDestination(
+            QgsProcessingParameterRasterDestination(
                 self.OUTPUT,
                 self.tr("出力レイヤ"),
-                "GeoTIFF files(*.tif *.tiff *.TIF *.TIFF)",
+                optional=False,
             )
         )
 
@@ -165,17 +160,9 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
             )
         )
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.LOAD_RESULT,
-                "アルゴリズムの終了後に出力ファイルを開く",
-                defaultValue=True,
-            )
-        )
-
     def processAlgorithm(self, parameters, context, feedback):
         input_layer = self.parameterAsRasterLayer(parameters, self.INPUT, context)
-        output_path = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+        output_path = self.parameterAsOutputLayer(parameters, self.OUTPUT, context)
 
         # parameters
         gf_size = self.parameterAsInt(parameters, self.GF_SIZE, context)
@@ -206,8 +193,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         chunk_size = self.parameterAsInt(parameters, self.CHUNK_SIZE, context)
         max_workers = self.parameterAsInt(parameters, self.MAX_WORKERS, context)
 
-        load_result = self.parameterAsBool(parameters, self.LOAD_RESULT, context)
-
         params = process.CsmapParams(
             gf_size=gf_size,
             gf_sigma=gf_sigma,
@@ -229,10 +214,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
             )
 
             feedback.pushInfo("処理が正常に完了しました")
-
-            if load_result and context.project() is not None:
-                rlayer = QgsRasterLayer(output_path, os.path.basename(output_path))
-                QgsProject.instance().addMapLayer(rlayer)
 
         except Exception as e:
             feedback.reportError(f"処理中にエラーが発生しました: {str(e)}")
