@@ -45,10 +45,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.GF_SIZE,
-                "Gaussian Filter Size",
-                QgsProcessingParameterNumber.Integer,
-                12,
+                name=self.GF_SIZE,
+                description="Gaussian Filter Size",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=12,
                 minValue=1,
                 maxValue=100,
             )
@@ -56,10 +56,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.GF_SIGMA,
-                "Gaussian Filter Sigma",
-                QgsProcessingParameterNumber.Integer,
-                3,
+                name=self.GF_SIGMA,
+                description="Gaussian Filter Sigma",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=3,
                 minValue=1,
                 maxValue=100,
             )
@@ -67,10 +67,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.CURVATURE_SIZE,
-                "Curvature Size",
-                QgsProcessingParameterNumber.Integer,
-                1,
+                name=self.CURVATURE_SIZE,
+                description="Curvature Filter Size",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=1,
                 minValue=1,
                 maxValue=100,
             )
@@ -78,28 +78,28 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.HEIGHT_SCALE_MIN,
-                "Height Scale Min",
-                QgsProcessingParameterNumber.Double,
-                0.0,
+                name=self.HEIGHT_SCALE_MIN,
+                description="Height Scale Min",
+                type=QgsProcessingParameterNumber.Double,
+                defaultValue=0.0,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.HEIGHT_SCALE_MAX,
-                "Height Scale Max",
-                QgsProcessingParameterNumber.Double,
-                1000.0,
+                name=self.HEIGHT_SCALE_MAX,
+                description="Height Scale Max",
+                type=QgsProcessingParameterNumber.Double,
+                defaultValue=1000.0,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.SLOPE_SCALE_MIN,
-                "Slope Scale Min",
-                QgsProcessingParameterNumber.Double,
-                0.0,
+                name=self.SLOPE_SCALE_MIN,
+                description="Slope Scale Min",
+                type=QgsProcessingParameterNumber.Double,
+                defaultValue=0.0,
                 minValue=0.0,
                 maxValue=100.0,
             )
@@ -107,10 +107,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.SLOPE_SCALE_MAX,
-                "Slope Scale Max",
-                QgsProcessingParameterNumber.Double,
-                1.5,
+                name=self.SLOPE_SCALE_MAX,
+                description="Slope Scale Max",
+                type=QgsProcessingParameterNumber.Double,
+                defaultValue=1.5,
                 minValue=0.0,
                 maxValue=100.0,
             )
@@ -118,10 +118,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.CURVATURE_SCALE_MIN,
-                "Curvature Scale Min",
-                QgsProcessingParameterNumber.Double,
-                -0.1,
+                name=self.CURVATURE_SCALE_MIN,
+                description="Curvature Scale Min",
+                type=QgsProcessingParameterNumber.Double,
+                defaultValue=-0.1,
                 minValue=-1.0,
                 maxValue=1.0,
             )
@@ -129,10 +129,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.CURVATURE_SCALE_MAX,
-                "Curvature Scale Max",
-                QgsProcessingParameterNumber.Double,
-                0.1,
+                name=self.CURVATURE_SCALE_MAX,
+                description="Curvature Scale Max",
+                type=QgsProcessingParameterNumber.Double,
+                defaultValue=0.1,
                 minValue=-1.0,
                 maxValue=1.0,
             )
@@ -140,10 +140,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.CHUNK_SIZE,
-                "Chunk Size",
-                QgsProcessingParameterNumber.Integer,
-                1024,
+                name=self.CHUNK_SIZE,
+                description="Chunk Size",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=1024,
                 minValue=256,
                 maxValue=8192,
             )
@@ -151,10 +151,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterNumber(
-                self.MAX_WORKERS,
-                "Max Workers",
-                QgsProcessingParameterNumber.Integer,
-                multiprocessing.cpu_count(),
+                name=self.MAX_WORKERS,
+                description="Max Workers",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=multiprocessing.cpu_count(),
                 minValue=1,
                 maxValue=64,
             )
