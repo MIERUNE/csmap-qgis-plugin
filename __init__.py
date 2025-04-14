@@ -1,12 +1,16 @@
-import sys
 import os
+import sys
 
-# to import modules as non-relative
-sys.path.append(os.path.dirname(__file__))
-sys.path.append(os.path.join(os.path.dirname(__file__), "csmap_py"))
+from qgis._gui import QgisInterface
+
+from .plugin import CSMapPlugin
+
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), "csmap_py"))
 
 
-def classFactory(iface):
-    from qcsmap import QCsMap
+def classFactory(iface: QgisInterface):
+    """
+    Entrypoint for QGIS plugin.
+    """
 
-    return QCsMap(iface)
+    return CSMapPlugin(iface)
