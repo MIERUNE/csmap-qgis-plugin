@@ -15,5 +15,5 @@ email=info@mierune.co.jp
 homepage=https://github.com/MIERUNE/csmap-qgis-plugin
 tracker=https://github.com/MIERUNE/csmap-qgis-plugin/issues
 repository=https://github.com/MIERUNE/csmap-qgis-plugin
-tags=python, DEM, GeoTIFF
+tags=python, processing, DEM, GeoTIFF
 category=
