@@ -3,7 +3,7 @@ name=CSMap Plugin
 qgisMinimumVersion=3.32
 about=最新版QGIS LTR（Windows / macOS）で動作します。
 description=DEMをGeoTIFF形式のCS立体図に変換するQGISプラグインです。
-version=0.0.1
+version=1.0.0
 
 supportsQt6=True
 
