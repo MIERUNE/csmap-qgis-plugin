@@ -1,8 +1,8 @@
 import contextlib
 
-from PyQt5.QtWidgets import QAction, QToolButton
 from qgis._gui import QgisInterface
 from qgis.core import QgsApplication
+from qgis.PyQt.QtWidgets import QAction, QToolButton
 
 from .processing_provider.csmap_provider import CSMapProcessingProvider
 
