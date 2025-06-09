@@ -32,7 +32,6 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
     CURVATURE_SCALE_MAX = "CURVATURE_SCALE_MAX"
     CHUNK_SIZE = "CHUNK_SIZE"
     MAX_WORKERS = "MAX_WORKERS"
-    PROCESSING_MODE = "PROCESSING_MODE"
 
     def initAlgorithm(self, config=None):
         self.addParameter(
