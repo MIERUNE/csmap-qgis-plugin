@@ -5,6 +5,7 @@ import tempfile
 from osgeo import gdal
 from qgis.core import (
     QgsProcessingAlgorithm,
+    QgsProcessingParameterDefinition,
     QgsProcessingParameterEnum,
     QgsProcessingParameterNumber,
     QgsProcessingParameterRasterDestination,
@@ -18,6 +19,7 @@ from ..csmap_py.csmap import process
 
 class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
     INPUT = "INPUT"
+    PROCESSING_MODE = "PROCESSING_MODE"
     OUTPUT = "OUTPUT"
     GF_SIZE = "GF_SIZE"
     GF_SIGMA = "GF_SIGMA"
@@ -42,6 +44,18 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterEnum(
+                name=self.PROCESSING_MODE,
+                description=self.tr("処理モード（本処理／プレビュー）"),
+                options=[
+                    self.tr("本処理"),
+                    self.tr("プレビュー"),
+                ],
+                defaultValue=0,
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterRasterDestination(
                 self.OUTPUT,
                 self.tr("出力レイヤ"),
@@ -49,134 +63,150 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
             )
         )
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.GF_SIZE,
-                description="Gaussian Filter Size",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=12,
-                minValue=1,
-                maxValue=100,
-            )
+        gf_size_param = QgsProcessingParameterNumber(
+            name=self.GF_SIZE,
+            description="Gaussian Filter Size",
+            type=QgsProcessingParameterNumber.Integer,
+            defaultValue=12,
+            minValue=1,
+            maxValue=100,
         )
+        gf_size_param.setFlags(
+            gf_size_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(gf_size_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.GF_SIGMA,
-                description="Gaussian Filter Sigma",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=3,
-                minValue=1,
-                maxValue=100,
-            )
+        gf_sigma_param = QgsProcessingParameterNumber(
+            name=self.GF_SIGMA,
+            description="Gaussian Filter Sigma",
+            type=QgsProcessingParameterNumber.Integer,
+            defaultValue=3,
+            minValue=1,
+            maxValue=100,
         )
+        gf_sigma_param.setFlags(
+            gf_sigma_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(gf_sigma_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.CURVATURE_SIZE,
-                description="Curvature Filter Size",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1,
-                minValue=1,
-                maxValue=100,
-            )
+        curvature_size_param = QgsProcessingParameterNumber(
+            name=self.CURVATURE_SIZE,
+            description="Curvature Filter Size",
+            type=QgsProcessingParameterNumber.Integer,
+            defaultValue=1,
+            minValue=1,
+            maxValue=100,
         )
+        curvature_size_param.setFlags(
+            curvature_size_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(curvature_size_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.HEIGHT_SCALE_MIN,
-                description="Height Scale Min",
-                type=QgsProcessingParameterNumber.Double,
-                defaultValue=0.0,
-            )
+        height_scale_min_param = QgsProcessingParameterNumber(
+            name=self.HEIGHT_SCALE_MIN,
+            description="Height Scale Min",
+            type=QgsProcessingParameterNumber.Double,
+            defaultValue=0.0,
         )
+        height_scale_min_param.setFlags(
+            height_scale_min_param.flags()
+            | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(height_scale_min_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.HEIGHT_SCALE_MAX,
-                description="Height Scale Max",
-                type=QgsProcessingParameterNumber.Double,
-                defaultValue=1000.0,
-            )
+        height_scale_max_param = QgsProcessingParameterNumber(
+            name=self.HEIGHT_SCALE_MAX,
+            description="Height Scale Max",
+            type=QgsProcessingParameterNumber.Double,
+            defaultValue=1000.0,
         )
+        height_scale_max_param.setFlags(
+            height_scale_max_param.flags()
+            | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(height_scale_max_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.SLOPE_SCALE_MIN,
-                description="Slope Scale Min",
-                type=QgsProcessingParameterNumber.Double,
-                defaultValue=0.0,
-                minValue=0.0,
-                maxValue=100.0,
-            )
+        slope_scale_min_param = QgsProcessingParameterNumber(
+            name=self.SLOPE_SCALE_MIN,
+            description="Slope Scale Min",
+            type=QgsProcessingParameterNumber.Double,
+            defaultValue=0.0,
+            minValue=0.0,
+            maxValue=100.0,
         )
+        slope_scale_min_param.setFlags(
+            slope_scale_min_param.flags()
+            | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(slope_scale_min_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.SLOPE_SCALE_MAX,
-                description="Slope Scale Max",
-                type=QgsProcessingParameterNumber.Double,
-                defaultValue=1.5,
-                minValue=0.0,
-                maxValue=100.0,
-            )
+        slope_scale_max_param = QgsProcessingParameterNumber(
+            name=self.SLOPE_SCALE_MAX,
+            description="Slope Scale Max",
+            type=QgsProcessingParameterNumber.Double,
+            defaultValue=1.5,
+            minValue=0.0,
+            maxValue=100.0,
         )
+        slope_scale_max_param.setFlags(
+            slope_scale_max_param.flags()
+            | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(slope_scale_max_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.CURVATURE_SCALE_MIN,
-                description="Curvature Scale Min",
-                type=QgsProcessingParameterNumber.Double,
-                defaultValue=-0.1,
-                minValue=-1.0,
-                maxValue=1.0,
-            )
+        curvature_scale_min_param = QgsProcessingParameterNumber(
+            name=self.CURVATURE_SCALE_MIN,
+            description="Curvature Scale Min",
+            type=QgsProcessingParameterNumber.Double,
+            defaultValue=-0.1,
+            minValue=-1.0,
+            maxValue=1.0,
         )
+        curvature_scale_min_param.setFlags(
+            curvature_scale_min_param.flags()
+            | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(curvature_scale_min_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.CURVATURE_SCALE_MAX,
-                description="Curvature Scale Max",
-                type=QgsProcessingParameterNumber.Double,
-                defaultValue=0.1,
-                minValue=-1.0,
-                maxValue=1.0,
-            )
+        curvature_scale_max_param = QgsProcessingParameterNumber(
+            name=self.CURVATURE_SCALE_MAX,
+            description="Curvature Scale Max",
+            type=QgsProcessingParameterNumber.Double,
+            defaultValue=0.1,
+            minValue=-1.0,
+            maxValue=1.0,
         )
+        curvature_scale_max_param.setFlags(
+            curvature_scale_max_param.flags()
+            | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(curvature_scale_max_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.CHUNK_SIZE,
-                description="Chunk Size",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1024,
-                minValue=256,
-                maxValue=8192,
-            )
+        chunk_size_param = QgsProcessingParameterNumber(
+            name=self.CHUNK_SIZE,
+            description="Chunk Size",
+            type=QgsProcessingParameterNumber.Integer,
+            defaultValue=1024,
+            minValue=256,
+            maxValue=8192,
         )
+        chunk_size_param.setFlags(
+            chunk_size_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced
+        )
+        self.addParameter(chunk_size_param)
 
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                name=self.MAX_WORKERS,
-                description="Max Workers",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=multiprocessing.cpu_count(),
-                minValue=1,
-                maxValue=64,
-            )
+        max_workers_param = QgsProcessingParameterNumber(
+            name=self.MAX_WORKERS,
+            description="Max Workers",
+            type=QgsProcessingParameterNumber.Integer,
+            defaultValue=multiprocessing.cpu_count(),
+            minValue=1,
+            maxValue=64,
         )
-
-        self.addParameter(
-            QgsProcessingParameterEnum(
-                name=self.PROCESSING_MODE,
-                description=self.tr("処理モード"),
-                options=[
-                    self.tr("プレビュー"),
-                    self.tr("本処理を実行"),
-                ],
-                defaultValue=0,
-            )
+        max_workers_param.setFlags(
+            max_workers_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced
         )
+        self.addParameter(max_workers_param)
 
     def processAlgorithm(self, parameters, context, feedback):
         input_layer = self.parameterAsRasterLayer(parameters, self.INPUT, context)
