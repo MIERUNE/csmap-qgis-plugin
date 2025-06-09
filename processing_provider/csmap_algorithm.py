@@ -254,7 +254,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         )
 
         # processing mode
-        if processing_mode == 0:
+        if processing_mode == 1:  # preview mode
             return self.process_preview(
                 input_layer, output_path, params, chunk_size, max_workers, feedback
             )
