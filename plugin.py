@@ -1,8 +1,10 @@
 import contextlib
+import os
 
 from qgis._gui import QgisInterface
 from qgis.core import QgsApplication
-from qgis.PyQt.QtWidgets import QAction, QToolButton
+from qgis.PyQt.QtCore import QCoreApplication, QTranslator
+from qgis.PyQt.QtWidgets import QAction, QApplication, QToolButton
 
 from .processing_provider.csmap_provider import CSMapProcessingProvider
 
@@ -13,6 +15,20 @@ with contextlib.suppress(ImportError):
 class CSMapPlugin:
     def __init__(self, iface: QgisInterface):
         self.iface = iface
+        self.translator = None
+        self.initTranslator()
+
+    def initTranslator(self):
+        locale = QApplication.instance().property("locale") or "en"
+
+        locale_path = os.path.join(
+            os.path.dirname(__file__), "i18n", f"csmap_{locale}.qm"
+        )
+
+        if os.path.exists(locale_path):
+            self.translator = QTranslator()
+            self.translator.load(locale_path)
+            QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):
         self.provider = CSMapProcessingProvider()
@@ -47,4 +63,4 @@ class CSMapPlugin:
             del self.toolButtonAction
 
     def tr(self, message):
-        return QgsApplication.translate("CS 3D-Map", message)
+        return QgsApplication.translate("CS Map", message)
