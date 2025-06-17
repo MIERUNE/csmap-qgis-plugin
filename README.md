@@ -43,7 +43,7 @@ rasterio インストール手順：
   - 必要に応じてファイルに出力できます。
 - 設定が完了したら、［実行］ボタンをクリックして変換を開始します。
 
-<img src='./imgs/usage.png' alt="Usage Example of CSMap Plugin" width="70%">
+<img src='./imgs/usage_ja.png' alt="Usage Example of CSMap Plugin" width="70%">
 
 ## Overview
 
@@ -83,6 +83,8 @@ rasterio installation steps:
   - By default, it is saved as a temporary file.
   - You can output to a file if needed.
 - Once settings are complete, click the [Run] button to start the conversion.
+
+<img src='./imgs/usage_en.png' alt="Usage Example of CSMap Plugin" width="70%">
 
 ## Authors
 
