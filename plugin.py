@@ -3,8 +3,8 @@ import os
 
 from qgis._gui import QgisInterface
 from qgis.core import QgsApplication
-from qgis.PyQt.QtCore import QCoreApplication, QTranslator
-from qgis.PyQt.QtWidgets import QAction, QApplication, QToolButton
+from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
+from qgis.PyQt.QtWidgets import QAction, QToolButton
 
 from .processing_provider.csmap_provider import CSMapProcessingProvider
 
@@ -19,16 +19,20 @@ class CSMapPlugin:
         self.initTranslator()
 
     def initTranslator(self):
-        locale = QApplication.instance().property("locale") or "en"
+        locale = QSettings().value("locale/userLocale")
+        if locale:
+            locale = locale[0:2]
+        else:
+            locale = "en"
 
         locale_path = os.path.join(
-            os.path.dirname(__file__), "i18n", f"csmap_{locale}.qm"
+            os.path.dirname(__file__), "i18n", f"csmap_algorithm_{locale}.qm"
         )
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()
-            self.translator.load(locale_path)
-            QCoreApplication.installTranslator(self.translator)
+            if self.translator.load(locale_path):
+                QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):
         self.provider = CSMapProcessingProvider()
@@ -62,5 +66,5 @@ class CSMapPlugin:
             self.iface.removeToolBarIcon(self.toolButtonAction)
             del self.toolButtonAction
 
-    def tr(self, message):
-        return QgsApplication.translate("CS Map", message)
+    def tr(self, string):
+        return QgsApplication.translate("CSMapProcessingAlgorithm", string)

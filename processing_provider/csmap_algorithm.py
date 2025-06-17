@@ -266,7 +266,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self, input_layer, output_path, params, chunk_size, max_workers, feedback
     ):
         """Process a part of the input image."""
-        feedback.pushInfo.tr("プレビューを生成中です...")
+        feedback.pushInfo(self.tr("プレビューを生成中です..."))
 
         try:
             temp_input = self.create_preview_input(input_layer, feedback)
@@ -285,11 +285,11 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
             if os.path.exists(temp_input):
                 os.remove(temp_input)
 
-            feedback.pushInfo.tr("プレビューの生成が完了しました")
+            feedback.pushInfo(self.tr("プレビューの生成が完了しました"))
 
         except Exception as e:
-            feedback.reportError.tr(
-                f"プレビューの生成中にエラーが発生しました: {str(e)}"
+            feedback.reportError(
+                self.tr(f"プレビューの生成中にエラーが発生しました: {str(e)}")
             )
             return {}
 
@@ -299,7 +299,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self, input_layer, output_path, params, chunk_size, max_workers, feedback
     ):
         """Process the full input image."""
-        feedback.pushInfo.tr("DEMを処理中です...")
+        feedback.pushInfo(self.tr("DEMを処理中です..."))
 
         try:
             process.process(
@@ -310,10 +310,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
                 max_workers=max_workers,
             )
 
-            feedback.pushInfo.tr("処理が正常に完了しました")
+            feedback.pushInfo(self.tr("処理が正常に完了しました"))
 
         except Exception as e:
-            feedback.reportError.tr(f"処理中にエラーが発生しました: {str(e)}")
+            feedback.reportError(self.tr(f"処理中にエラーが発生しました: {str(e)}"))
             return {}
 
         return {self.OUTPUT: output_path}
@@ -341,7 +341,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         ds = gdal.Open(input_layer.source())
         if ds is None:
-            raise Exception("入力DEMを開けませんでした")
+            raise Exception(self.tr("入力DEMを開けませんでした"))
 
         geotransform = ds.GetGeoTransform()
         x_min = preview_extent.xMinimum()
@@ -358,7 +358,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         height_pixels = pixel_y_max - pixel_y_min
 
         if width_pixels <= 0 or height_pixels <= 0:
-            raise Exception("プレビュー範囲が無効です")
+            raise Exception(self.tr("プレビュー範囲が無効です"))
 
         gdal.Translate(
             temp_path,
@@ -372,7 +372,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         return temp_path
 
     def tr(self, string):
-        return QCoreApplication.translate("Processing", string)
+        return QCoreApplication.translate("CSMapProcessingAlgorithm", string)
 
     def createInstance(self):
         return CSMapProcessingAlgorithm()
