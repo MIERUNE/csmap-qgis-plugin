@@ -266,7 +266,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self, input_layer, output_path, params, chunk_size, max_workers, feedback
     ):
         """Process a part of the input image."""
-        feedback.pushInfo("プレビューを生成中です...")
+        feedback.pushInfo.tr("プレビューを生成中です...")
 
         try:
             temp_input = self.create_preview_input(input_layer, feedback)
@@ -285,10 +285,12 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
             if os.path.exists(temp_input):
                 os.remove(temp_input)
 
-            feedback.pushInfo("プレビューの生成が完了しました")
+            feedback.pushInfo.tr("プレビューの生成が完了しました")
 
         except Exception as e:
-            feedback.reportError(f"プレビューの生成中にエラーが発生しました: {str(e)}")
+            feedback.reportError.tr(
+                f"プレビューの生成中にエラーが発生しました: {str(e)}"
+            )
             return {}
 
         return {self.OUTPUT: output_path}
@@ -297,7 +299,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self, input_layer, output_path, params, chunk_size, max_workers, feedback
     ):
         """Process the full input image."""
-        feedback.pushInfo("DEMを処理中です...")
+        feedback.pushInfo.tr("DEMを処理中です...")
 
         try:
             process.process(
@@ -308,10 +310,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
                 max_workers=max_workers,
             )
 
-            feedback.pushInfo("処理が正常に完了しました")
+            feedback.pushInfo.tr("処理が正常に完了しました")
 
         except Exception as e:
-            feedback.reportError(f"処理中にエラーが発生しました: {str(e)}")
+            feedback.reportError.tr(f"処理中にエラーが発生しました: {str(e)}")
             return {}
 
         return {self.OUTPUT: output_path}
@@ -379,7 +381,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         return "dem_to_csmap"
 
     def displayName(self):
-        return self.tr("CS立体図を作成（CS 3D-Map）")
+        return self.tr("DEMをCS立体図に変換")
 
     def shortHelpString(self):
         return self.tr("入力のDEMをGeoTIFF形式のCS立体図に変換します。")
