@@ -1,8 +1,8 @@
 [general]
 name=CSMap Plugin
 qgisMinimumVersion=3.32
-about=最新版QGIS LTR（Windows / macOS）で動作します。
-description=DEMをGeoTIFF形式のCS立体図に変換するQGISプラグインです。
+about=バージョン 3.32 以降の QGIS（Windows / macOS）で動作します。 Works with QGIS version 3.32 and later (Windows / macOS).
+description=DEMをGeoTIFF形式のCS立体図に変換するプラグインです。 A plugin that converts DEM (Digital Elevation Model) into CS (Curvature and Slope) topographical maps in GeoTIFF format.
 version={{PLUGIN_VERSION}}
 
 supportsQt6=True
