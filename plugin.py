@@ -52,7 +52,7 @@ class CSMapPlugin:
         tool_button = QToolButton()
         icon = self.provider.icon()
         default_action = QAction(
-            icon, self.tr("CS立体図を作成"), self.iface.mainWindow()
+            icon, self.tr("Convert DEM to CS Map"), self.iface.mainWindow()
         )
         default_action.triggered.connect(
             lambda: execAlgorithmDialog("csmap:dem_to_csmap", {})
