@@ -37,7 +37,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterRasterLayer(
                 self.INPUT,
-                self.tr("入力レイヤ（DEM）"),
+                self.tr("Input Layer（DEM）"),
                 optional=False,
             )
         )
@@ -45,10 +45,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterEnum(
                 name=self.PROCESSING_MODE,
-                description=self.tr("処理モード（本処理／プレビュー）"),
+                description=self.tr("Processing Mode（Main Process / Preview）"),
                 options=[
-                    self.tr("本処理"),
-                    self.tr("プレビュー"),
+                    self.tr("Main Process"),
+                    self.tr("Preview"),
                 ],
                 defaultValue=0,
             )
@@ -57,7 +57,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterRasterDestination(
                 self.OUTPUT,
-                self.tr("出力レイヤ"),
+                self.tr("Output Layer"),
                 optional=False,
             )
         )
@@ -266,7 +266,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self, input_layer, output_path, params, chunk_size, max_workers, feedback
     ):
         """Process a part of the input image."""
-        feedback.pushInfo("プレビューを生成中です...")
+        feedback.pushInfo(self.tr("Generating preview..."))
 
         try:
             temp_input = self.create_preview_input(input_layer, feedback)
@@ -285,10 +285,12 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
             if os.path.exists(temp_input):
                 os.remove(temp_input)
 
-            feedback.pushInfo("プレビューの生成が完了しました")
+            feedback.pushInfo(self.tr("Preview generation completed."))
 
         except Exception as e:
-            feedback.reportError(f"プレビューの生成中にエラーが発生しました: {str(e)}")
+            feedback.reportError(
+                self.tr(f"Error occurred during preview generation: {str(e)}")
+            )
             return {}
 
         return {self.OUTPUT: output_path}
@@ -297,7 +299,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         self, input_layer, output_path, params, chunk_size, max_workers, feedback
     ):
         """Process the full input image."""
-        feedback.pushInfo("DEMを処理中です...")
+        feedback.pushInfo(self.tr("Processing DEM..."))
 
         try:
             process.process(
@@ -308,10 +310,10 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
                 max_workers=max_workers,
             )
 
-            feedback.pushInfo("処理が正常に完了しました")
+            feedback.pushInfo(self.tr("Processing completed successfully."))
 
         except Exception as e:
-            feedback.reportError(f"処理中にエラーが発生しました: {str(e)}")
+            feedback.reportError(self.tr(f"Error occurred during processing: {str(e)}"))
             return {}
 
         return {self.OUTPUT: output_path}
@@ -339,7 +341,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
 
         ds = gdal.Open(input_layer.source())
         if ds is None:
-            raise Exception("入力DEMを開けませんでした")
+            raise Exception(self.tr("Could not open the input DEM."))
 
         geotransform = ds.GetGeoTransform()
         x_min = preview_extent.xMinimum()
@@ -356,7 +358,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         height_pixels = pixel_y_max - pixel_y_min
 
         if width_pixels <= 0 or height_pixels <= 0:
-            raise Exception("プレビュー範囲が無効です")
+            raise Exception(self.tr("Invalid preview area."))
 
         gdal.Translate(
             temp_path,
@@ -370,7 +372,7 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         return temp_path
 
     def tr(self, string):
-        return QCoreApplication.translate("Processing", string)
+        return QCoreApplication.translate("CSMapProcessingAlgorithm", string)
 
     def createInstance(self):
         return CSMapProcessingAlgorithm()
@@ -379,7 +381,9 @@ class CSMapProcessingAlgorithm(QgsProcessingAlgorithm):
         return "dem_to_csmap"
 
     def displayName(self):
-        return self.tr("CS立体図を作成（CS 3D-Map）")
+        return self.tr("Convert DEM to CS Map")
 
     def shortHelpString(self):
-        return self.tr("入力のDEMをGeoTIFF形式のCS立体図に変換します。")
+        return self.tr(
+            "Convert input DEM to CS (Curvature and Slope) topographical map in GeoTIFF format."
+        )
