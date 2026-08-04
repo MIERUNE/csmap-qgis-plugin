@@ -9,7 +9,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       # Temporarily rename metadata file whose contents are to be rewritten
       - name: rename some files to rewrite
         run: |
@@ -31,7 +31,10 @@ jobs:
             -ve './.gitignore' \
             -ve './.python-version' \
             -ve './README.md' \
-            -ve './uv.lock' | xargs -I src cp --parents src ${{env.PLUGIN_NAME}}
+            -ve './uv.lock' \
+            -ve '\.ts$' \
+            -ve '\.pro$' \
+            -ve '^\./imgs/usage_.*\.png$' | xargs -I src cp --parents src ${{env.PLUGIN_NAME}}
       - name: Create Archive
         run: |
           zip -r ${{env.PLUGIN_NAME}}.zip ./${{env.PLUGIN_NAME}}
@@ -39,4 +42,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ github.event.release.tag_name }} ${{env.PLUGIN_NAME}}.zip#${{env.PLUGIN_NAME}}
+          gh release upload ${{ github.event.release.tag_name }} ${{env.PLUGIN_NAME}}.zip#${{env.PLUGIN_NAME}} --clobber
+
+      - name: Upload to plugins.qgis.org
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          QGIS_PLUGIN_TOKEN: ${{ secrets.QGIS_PLUGIN_TOKEN }}
+        run: |
+          HTTP_CODE=$(curl --silent --show-error \
+            --output response.txt --write-out '%{http_code}' \
+            --connect-timeout 15 --max-time 300 \
+            -X POST \
+            "https://plugins.qgis.org/plugins/api/${{env.PLUGIN_NAME}}/version/add/" \
+            -H "Authorization: Bearer $QGIS_PLUGIN_TOKEN" \
+            -F "package=@${{env.PLUGIN_NAME}}.zip")
+          cat response.txt
+          case "$HTTP_CODE" in
+            2??) ;;
+            *)
+              echo "::error::plugins.qgis.org rejected the upload (HTTP $HTTP_CODE)"
+              exit 1
+              ;;
+          esac

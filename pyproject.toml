@@ -15,4 +15,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff>=0.4.5",
+    "bandit[toml]>=1.8.6",
 ]
+
+[tool.bandit]
+exclude_dirs = [".venv", "tests"]
