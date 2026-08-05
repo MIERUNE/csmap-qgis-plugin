@@ -1,8 +1,8 @@
 import contextlib
 import os
 
-from qgis._gui import QgisInterface
 from qgis.core import QgsApplication
+from qgis.gui import QgisInterface
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
 from qgis.PyQt.QtWidgets import QAction, QToolButton
 

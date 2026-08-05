@@ -1,7 +1,7 @@
 import os
 import sys
 
-from qgis._gui import QgisInterface
+from qgis.gui import QgisInterface
 
 from .plugin import CSMapPlugin
 
