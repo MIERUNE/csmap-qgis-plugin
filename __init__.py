@@ -1,11 +1,6 @@
-import os
-import sys
-
 from qgis.gui import QgisInterface
 
 from .plugin import CSMapPlugin
-
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), "csmap_py"))
 
 
 def classFactory(iface: QgisInterface):

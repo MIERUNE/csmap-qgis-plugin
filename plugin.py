@@ -1,15 +1,12 @@
-import contextlib
 import os
 
+from qgis import processing
 from qgis.core import QgsApplication
 from qgis.gui import QgisInterface
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator
 from qgis.PyQt.QtWidgets import QAction, QToolButton
 
 from .processing_provider.csmap_provider import CSMapProcessingProvider
-
-with contextlib.suppress(ImportError):
-    from processing import execAlgorithmDialog
 
 
 class CSMapPlugin:
@@ -55,7 +52,7 @@ class CSMapPlugin:
             icon, self.tr("Convert DEM to CS Map"), self.iface.mainWindow()
         )
         default_action.triggered.connect(
-            lambda: execAlgorithmDialog("csmap:dem_to_csmap", {})
+            lambda: processing.execAlgorithmDialog("csmap:dem_to_csmap", {})
         )
         tool_button.setDefaultAction(default_action)
 
