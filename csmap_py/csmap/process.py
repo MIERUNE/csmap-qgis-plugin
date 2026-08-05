@@ -64,15 +64,11 @@ def _process_chunk(
 ) -> np.ndarray:
     """チャンクごとの処理"""
     csmap_chunk = csmap(chunk, params)
+    margin_to_removed = (params.gf_size + params.gf_sigma) // 2
+    # shape = (4, chunk_size - margin, chunk_size - margin)
     csmap_chunk_margin_removed = csmap_chunk[
-        :,
-        (params.gf_size + params.gf_sigma) // 2 : -(
-            (params.gf_size + params.gf_sigma) // 2
-        ),
-        (params.gf_size + params.gf_sigma) // 2 : -(
-            (params.gf_size + params.gf_sigma) // 2
-        ),
-    ]  # shape = (4, chunk_size - margin, chunk_size - margin)
+        :, margin_to_removed:-margin_to_removed, margin_to_removed:-margin_to_removed
+    ]
 
     if lock is None:
         dst.write(

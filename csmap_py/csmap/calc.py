@@ -21,7 +21,8 @@ def slope(dem: np.ndarray) -> np.ndarray:
 def gaussianfilter(image: np.ndarray, size: int, sigma: int) -> np.ndarray:
     """ガウシアンフィルター"""
     size = int(size) // 2
-    x, y = np.mgrid[-size : size + 1, -size : size + 1]
+    start, stop = -size, size + 1
+    x, y = np.mgrid[start:stop, start:stop]
     g = np.exp(-(x**2 + y**2) / (2 * sigma**2))
     kernel = g / g.sum()
 
