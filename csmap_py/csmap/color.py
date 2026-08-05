@@ -99,14 +99,14 @@ def blend(
     DEMを用いて処理した他の要素は、DEMよりも1px内側にpaddingされているので
     あらかじめDEMのpaddingを除外しておく必要がある
     """
-    _blend = np.zeros((4, dem_bw.shape[0], dem_bw.shape[1]), dtype=np.uint8)
-    _blend = (
-        dem_bw * blend_params["dem"]
-        + slope_red * blend_params["slope_red"]
-        + slope_bw * blend_params["slope_bw"]
-        + curvature_blue * blend_params["curvature_blue"]
-        + curvature_ryb * blend_params["curvature_ryb"]
+    weighted_layers = (
+        dem_bw * blend_params["dem"],
+        slope_red * blend_params["slope_red"],
+        slope_bw * blend_params["slope_bw"],
+        curvature_blue * blend_params["curvature_blue"],
+        curvature_ryb * blend_params["curvature_ryb"],
     )
+    _blend = sum(weighted_layers)
     _blend = _blend.astype(np.uint8)  # force uint8
     _blend[3, :, :] = 255  # alpha
     return _blend
