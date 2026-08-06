@@ -22,11 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Export requirements.txt
-        run: |
-          pip3 install uv
-          uv export -o requirements.txt --no-dev --no-hashes
-
       - name: Docker pull QGIS
         run: |
           docker pull "$DOCKER_IMAGE":${{ matrix.docker_tags }}
@@ -38,8 +33,8 @@ jobs:
             -w /plugin \
             "$DOCKER_IMAGE":${{ matrix.docker_tags }} \
             sh -c "
-              (pip3 install --break-system-packages -r requirements.txt pytest pytest-qgis ||
-               pip3 install -r requirements.txt pytest pytest-qgis) &&
+              (pip3 install --break-system-packages rasterio pytest pytest-qgis ||
+               pip3 install rasterio pytest pytest-qgis) &&
               (command -v xvfb-run >/dev/null || (apt-get update && apt-get install -y xvfb)) &&
               xvfb-run -s '+extension GLX -screen 0 1024x768x24' \
                 python3 -m pytest tests/ -v
