@@ -64,15 +64,11 @@ def _process_chunk(
 ) -> np.ndarray:
     """チャンクごとの処理"""
     csmap_chunk = csmap(chunk, params)
+    margin_to_removed = (params.gf_size + params.gf_sigma) // 2
+    # shape = (4, chunk_size - margin, chunk_size - margin)
     csmap_chunk_margin_removed = csmap_chunk[
-        :,
-        (params.gf_size + params.gf_sigma) // 2 : -(
-            (params.gf_size + params.gf_sigma) // 2
-        ),
-        (params.gf_size + params.gf_sigma) // 2 : -(
-            (params.gf_size + params.gf_sigma) // 2
-        ),
-    ]  # shape = (4, chunk_size - margin, chunk_size - margin)
+        :, margin_to_removed:-margin_to_removed, margin_to_removed:-margin_to_removed
+    ]
 
     if lock is None:
         dst.write(
@@ -99,16 +95,17 @@ def process(
         # チャンクごとの処理結果には「淵=margin」が生じるのでこの部分を除外する必要がある
         margin_to_removed = margin // 2  # 整数値に切り捨てた値*両端
 
-        # マージンを考慮したtransform
+        # マージンを考慮したtransform: 左端・上端の座標をマージン分ずらす
+        offset = 1 + margin_to_removed
+        x_origin = dem.transform.c + offset * dem.transform.a
+        y_origin = dem.transform.f + offset * dem.transform.e
         transform = Affine(
             dem.transform.a,
             dem.transform.b,
-            dem.transform.c
-            + (1 + margin // 2) * dem.transform.a,  # 左端の座標をマージン分ずらす
+            x_origin,
             dem.transform.d,
             dem.transform.e,
-            dem.transform.f
-            + (1 + margin // 2) * dem.transform.e,  # 上端の座標をマージン分ずらす
+            y_origin,
         )  # 古いrasterioに合わせて引数を3つ削除した
 
         # 生成されるCS立体図のサイズ
