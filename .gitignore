@@ -6,4 +6,4 @@ __pycache__/
 .pytest_cache
 coverage.xml
 .coverage
-requirements.txt
+requirements.txt.qgis-settings
