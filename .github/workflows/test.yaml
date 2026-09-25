@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        docker_tags: ["release-3_32", "3.44", "4.0"]
+        docker_tags: ["3.44", "4.0"]
 
     steps:
       - name: Checkout
