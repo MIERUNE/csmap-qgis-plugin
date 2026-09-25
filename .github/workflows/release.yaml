@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          submodules: true
       # Temporarily rename metadata file whose contents are to be rewritten
       - name: rename some files to rewrite
         run: |
@@ -32,6 +34,7 @@ jobs:
             -ve './.python-version' \
             -ve './README.md' \
             -ve './uv.lock' \
+            -ve '^\./csmap_py/doc/' \
             -ve '\.ts$' \
             -ve '\.pro$' \
             -ve '^\./imgs/usage_.*\.png$' | xargs -I src cp --parents src ${{env.PLUGIN_NAME}}
