@@ -4,6 +4,11 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - "**/*.md"
+
+permissions:
+  contents: read
 
 env:
   # Docker settings
@@ -14,9 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
       matrix:
-        docker_tags: ["3.44", "4.0"]
+        docker_tags: ["3.44", "4.0-trixie"]
 
     steps:
       - name: Checkout
@@ -35,9 +39,7 @@ jobs:
             -w /plugin \
             "$DOCKER_IMAGE":${{ matrix.docker_tags }} \
             sh -c "
-              (pip3 install --break-system-packages rasterio pytest pytest-qgis ||
-               pip3 install rasterio pytest pytest-qgis) &&
-              (command -v xvfb-run >/dev/null || (apt-get update && apt-get install -y xvfb)) &&
+              pip3 install --break-system-packages rasterio pytest pytest-qgis &&
               xvfb-run -s '+extension GLX -screen 0 1024x768x24' \
                 python3 -m pytest tests/ -v
             "
