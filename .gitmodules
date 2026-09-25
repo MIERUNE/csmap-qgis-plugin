@@ -1,0 +1,3 @@
+[submodule "csmap_py"]
+	path = csmap_py
+	url = https://github.com/MIERUNE/csmap-py.git
