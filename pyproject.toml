@@ -27,3 +27,6 @@ extend-exclude = ["csmap_py"]
 
 [tool.bandit]
 exclude_dirs = [".venv", "tests", "csmap_py"]
+
+[tool.uv]
+exclude-newer = "1 week"
