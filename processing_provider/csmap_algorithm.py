@@ -1,5 +1,6 @@
 import multiprocessing
 import os
+import sys
 import tempfile
 
 from osgeo import gdal
@@ -14,7 +15,12 @@ from qgis.core import (
 )
 from qgis.PyQt.QtCore import QCoreApplication
 
-from ..csmap_py.csmap import process
+# csmap-py (git submodule) imports itself as the top-level package "csmap"
+_CSMAP_PY_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "csmap_py")
+if _CSMAP_PY_DIR not in sys.path:
+    sys.path.append(_CSMAP_PY_DIR)
+
+from csmap import process  # noqa: E402
 
 
 def _as_advanced(param):

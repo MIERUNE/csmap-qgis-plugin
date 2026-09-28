@@ -8,7 +8,7 @@
 
 - A plugin that converts DEM (Digital Elevation Model) into CS (Curvature and Slope) topographical maps in GeoTIFF format.
 - The DEM conversion process uses[ csmap-py ](https://github.com/MIERUNE/csmap-py).
-- Works with QGIS version 3.32 and later (Windows / macOS).
+- Works with QGIS version 3.44 and later (Windows / macOS).
 
 ## Installation
 
@@ -50,7 +50,7 @@ rasterio installation steps:
 
 - DEM（Digital Elevation Model: 数値標高モデル）を GeoTIFF 形式の CS 立体図に変換するプラグインです。
 - DEM の変換処理には[ csmap-py ](https://github.com/MIERUNE/csmap-py)を利用しています。
-- バージョン 3.32 以降の QGIS（Windows / macOS）で動作します。
+- バージョン 3.44 以降の QGIS（Windows / macOS）で動作します。
 
 ## インストール
 
